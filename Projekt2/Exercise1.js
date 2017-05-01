@@ -48,7 +48,6 @@ function initGL() {
 function setUpAttributesAndUniforms(){
     "use strict";
     ctx.aVertexPositionId = gl.getAttribLocation(ctx.shaderProgram, "aVertexPosition");
-    //ctx.uColorId = gl.getUniformLocation(ctx.shaderProgram, "uColor");
     ctx.aVertexColorId = gl.getAttribLocation(ctx.shaderProgram, "aVertexColor");
 }
 
@@ -59,21 +58,12 @@ function setUpBuffers(){
     "use strict";
     rectangleObject.buffer = gl.createBuffer();
 
-    /*
-    var vertices = [
-    -0.2, 0.5,
-    0.2, 0.5,
-    0.2, -0.5,
-    -0.2, -0.5
-    ]
-    */
-
     // x, y, r, g, b, a
     ctx.verticesAndColors = [
-        -0.2, 0.5, 1, 0.2, 1, 1,
-        0.2, 0.5, 0.3, 0.2, 0, 1,
-        0.2, -0.5, 0, 1, 1, 1,
-        -0.2, -0.5, 1, 1, 1, 1
+        -0.2, 0.5, 1, 0, 0, 1,
+        0.2, 0.5, 0, 1, 0, 1,
+        0.2, -0.5, 1, 1, 0, 1,
+        -0.2, -0.5, 0, 0.85, 1, 1
     ];
 
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
@@ -88,6 +78,8 @@ function setUpBuffers(){
  */
 function draw() {
     "use strict";
+    console.log("Drawing");
+
     // set background color
     gl.clearColor(0.3, 1, 0.3, 1);
     // clear image with defined color
@@ -104,10 +96,6 @@ function draw() {
 
     gl.drawArrays(gl.LINE_LOOP, 0, 4);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
-
-    console.log("Drawing");
-
-    // add drawing routines here
 }
 
 var rectangleObject = {
