@@ -1,12 +1,12 @@
 attribute vec2 aVertexPosition;
 attribute vec4 aVertexColor;
-/*
-uniform vec4 uColor;
-*/
+attribute vec2 aVertexTextureCoord;
+
 varying vec4 vColor;
+varying vec2 vTextureCoord;
 
 void main() {
     // umrechnen von Kartesische Koordinaten in homogene Koordinaten
-    vColor = aVertexColor;
+    vTextureCoord = aVertexTextureCoord;
     gl_Position = vec4(aVertexPosition, 0, 1);
 }
