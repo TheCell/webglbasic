@@ -57,14 +57,14 @@ function setUpBuffers(){
     rectangleObject.buffer = gl.createBuffer();
 
     var vertices = [
-        -0.2, 0.5,
-        0.7, 0.7,
-        0.8, 0.8,
-        -0.8, 0.6
-    ];
-
+    -0.2, 0.5,
+    0.2, 0.5,
+    0.2, -0.5,
+    -0.2, -0.5
+    ]
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
     gl.uniform4f(ctx.uColorId, 1, 0, 1, 1)
     /*
     */
