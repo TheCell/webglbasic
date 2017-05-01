@@ -62,7 +62,7 @@ function setUpBuffers(){
     ctx.verticesAndColors = [
         -0.2, 0.5, 1, 0, 0, 1,
         0.2, 0.5, 0, 1, 0, 1,
-        0.2, -0.5, 1, 1, 0, 1,
+        0.2, -0.5, 0, 0, 1, 1,
         -0.2, -0.5, 0, 0.85, 1, 1
     ];
 
@@ -89,12 +89,12 @@ function draw() {
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.buffer);
     // Pointer data
     gl.vertexAttribPointer(ctx.aVertexPositionId, 2, gl.FLOAT, false, 24, 0);
-    gl.vertexAttribPointer(ctx.aVertexColorId, 2, gl.FLOAT, false, 24, 8);
+    gl.vertexAttribPointer(ctx.aVertexColorId, 4, gl.FLOAT, false, 24, 8);
     //
     gl.enableVertexAttribArray(ctx.aVertexPositionId);
     gl.enableVertexAttribArray(ctx.aVertexColorId);
 
-    gl.drawArrays(gl.LINE_LOOP, 0, 4);
+    //gl.drawArrays(gl.LINE_LOOP, 0, 4);
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 }
 
