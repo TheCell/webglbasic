@@ -92,11 +92,6 @@ function setUpBuffers(){
             0, 0
         ];
 
-    var modelViewMatrix = mat4.create();
-    //mat4.fromTranslation(modelViewMatrix, [0.3, 0.1, 0.0]);
-    mat4.fromRotation(modelViewMatrix, Math.PI/2,  [0.0, 0.0, 1.0]);
-    gl.uniformMatrix4fv(ctx.uModelViewMatrixId, false, modelViewMatrix);
-
     rectangleObject.textureBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.textureBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoord), gl.STATIC_DRAW);
@@ -139,7 +134,19 @@ function draw() {
     gl.uniform1i(ctx.uSamplerId, 0);
 
     //gl.drawArrays(gl.LINE_LOOP, 0, 4);
-    gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+    var modelViewMatrix = mat4.create();
+    var angle = 2*Math.PI;
+    var rotateStep = (Math.PI*2)/360;
+
+    for(var i = 0; i < 360; i++)
+    {
+        //gl.clear(gl.COLOR_BUFFER_BIT);
+        mat4.fromTranslation(modelViewMatrix, [0.3, 0.1, 0.0]);
+        mat4.fromRotation(modelViewMatrix, angle,  [0.0, 0.0, 1.0]);
+        gl.uniformMatrix4fv(ctx.uModelViewMatrixId, false, modelViewMatrix);
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+        angle = angle + rotateStep;
+    }
 }
 
 /**
