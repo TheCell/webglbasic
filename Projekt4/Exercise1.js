@@ -19,7 +19,8 @@ var ctx =
     aVertexColorId: -1,
     verticesAndColors: -1,
     uSamplerId: -1,
-    aVertexTextureCoordId: -1
+    aVertexTextureCoordId: -1,
+    uModelViewMatrixId: -1
     };
 
 var lennaTxt =
@@ -65,6 +66,7 @@ function setUpAttributesAndUniforms(){
     ctx.aVertexColorId = gl.getAttribLocation(ctx.shaderProgram, "aVertexColor");
     ctx.aVertexTextureCoordId = gl.getAttribLocation(ctx.shaderProgram, "aVertexTextureCoord");
     ctx.uSamplerId = gl.getUniformLocation(ctx.shaderProgram, "uSampler");
+    ctx.uModelViewMatrixId = gl.getUniformLocation(ctx.shaderProgram, "uModelViewMatrix");
 }
 
 /**
@@ -89,6 +91,12 @@ function setUpBuffers(){
             1, 0,
             0, 0
         ];
+
+    var modelViewMatrix = mat4.create();
+    //mat4.fromTranslation(modelViewMatrix, [0.3, 0.1, 0.0]);
+    mat4.fromRotation(modelViewMatrix, Math.PI/2,  [0.0, 0.0, 1.0]);
+    gl.uniformMatrix4fv(ctx.uModelViewMatrixId, false, modelViewMatrix);
+
     rectangleObject.textureBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, rectangleObject.textureBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoord), gl.STATIC_DRAW);
