@@ -123,7 +123,7 @@ function draw() {
 
     //
     gl.enableVertexAttribArray(ctx.aVertexPositionId);
-    gl.enableVertexAttribArray(ctx.aVertexColorId);
+    //gl.enableVertexAttribArray(ctx.aVertexColorId);
     gl.enableVertexAttribArray(ctx.aVertexTextureCoordId);
 
     gl.activeTexture(gl.TEXTURE0);
