@@ -11,6 +11,7 @@ window.up = false;
 window.down = false;
 window.left = false;
 window.right = false;
+window.turnRight = false;
 
 function addEventListenerFunction()
 {
@@ -263,8 +264,16 @@ function loadTexture()
 
 function drawAnimated( timestamp )
 {
-
     if(window.right)
+    {
+        window.turnRight = true;
+    }
+    else if(window.left)
+    {
+        window.turnRight = false;
+    }
+
+    if(window.turnRight)
     {
         if(transformationVariables.angle < 0)
         {
