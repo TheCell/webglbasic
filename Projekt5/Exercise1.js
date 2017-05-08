@@ -20,7 +20,8 @@ var ctx =
     verticesAndColors: -1,
     uSamplerId: -1,
     aVertexTextureCoordId: -1,
-    uModelViewMatrixId: -1
+    uModelViewMatrixId: -1,
+    uTextureMatrix: -1
     };
 
 var lennaTxt =
@@ -71,6 +72,7 @@ function setUpAttributesAndUniforms(){
     ctx.aVertexTextureCoordId = gl.getAttribLocation(ctx.shaderProgram, "aVertexTextureCoord");
     ctx.uSamplerId = gl.getUniformLocation(ctx.shaderProgram, "uSampler");
     ctx.uModelViewMatrixId = gl.getUniformLocation(ctx.shaderProgram, "uModelViewMatrix");
+    ctx.uTextureMatrix = gl.getUniformLocation(ctx.shaderProgram, "uTextureMatrix");
 }
 
 /**
@@ -139,13 +141,21 @@ function draw() {
 
     //gl.drawArrays(gl.LINE_LOOP, 0, 4);
     var modelViewMatrix = mat4.create();
+    var textureMatrix = mat3.create();
 
     //gl.clear(gl.COLOR_BUFFER_BIT);
     //mat4.fromTranslation(modelViewMatrix, [0.3, 0.1, 0.0]);
     //mat4.fromRotation(modelViewMatrix, angle,  [0.0, 0.0, 1.0]);
     mat4.fromRotation(modelViewMatrix, transformationVariables.angle, [0.0, 0.0, 1.0]);
-    //mat4.scale(modelViewMatrix, modelViewMatrix, [scale, scale, 0]);
+
+    mat3.fromTranslation(textureMatrix, [0.5, 0.5]);
+    mat3.scale(textureMatrix, textureMatrix, [0.7, 0.7]);
+    mat3.rotate(textureMatrix, textureMatrix, transformationVariables.angle, [0.0, 0.0, 1.0]);
+    mat3.translate(textureMatrix, textureMatrix, [-0.5, -0.5]);
+
+    gl.uniformMatrix3fv(ctx.uTextureMatrix, false, textureMatrix);
     gl.uniformMatrix4fv(ctx.uModelViewMatrixId, false, modelViewMatrix);
+
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 }
 
