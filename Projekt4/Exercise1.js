@@ -137,12 +137,15 @@ function draw() {
     var modelViewMatrix = mat4.create();
     var angle = 2*Math.PI;
     var rotateStep = (Math.PI*2)/360;
+    var scale = 1.0;
 
     for(var i = 0; i < 360; i++)
     {
         //gl.clear(gl.COLOR_BUFFER_BIT);
         mat4.fromTranslation(modelViewMatrix, [0.3, 0.1, 0.0]);
-        mat4.fromRotation(modelViewMatrix, angle,  [0.0, 0.0, 1.0]);
+        //mat4.fromRotation(modelViewMatrix, angle,  [0.0, 0.0, 1.0]);
+        mat4.rotate(modelViewMatrix, modelViewMatrix, angle, [0.0, 0.0, 1.0]);
+        //mat4.scale(modelViewMatrix, modelViewMatrix, [scale, scale, 0]);
         gl.uniformMatrix4fv(ctx.uModelViewMatrixId, false, modelViewMatrix);
         gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
         angle = angle + rotateStep;
