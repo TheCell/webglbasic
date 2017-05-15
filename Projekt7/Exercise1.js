@@ -75,13 +75,8 @@ var ctx =
     {
     shaderProgram: -1,
     aVertexPositionId: -1,
-    uColorId: -1,
     aVertexColorId: -1,
-    verticesAndColors: -1,
-    uSamplerId: -1,
-    aVertexTextureCoordId: -1,
-    uModelViewMatrixId: -1,
-    uTextureMatrix: -1
+    uProjectionMatrix: -1
     };
 
 var lennaTxt =
@@ -109,6 +104,7 @@ function startup() {
     gl = createGLContext(canvas);
     initGL();
     //draw();
+    drawAnimated();
 }
 
 /**
@@ -118,8 +114,8 @@ function initGL() {
     "use strict";
     ctx.shaderProgram = loadAndCompileShaders(gl, 'VertexShader.glsl', 'FragmentShader.glsl');
     setUpAttributesAndUniforms();
-    setUpBuffers();
-    loadTexture();
+    //setUpBuffers();
+    //loadTexture();
     // add more necessary commands here
 }
 
@@ -130,10 +126,12 @@ function setUpAttributesAndUniforms(){
     "use strict";
     ctx.aVertexPositionId = gl.getAttribLocation(ctx.shaderProgram, "aVertexPosition");
     ctx.aVertexColorId = gl.getAttribLocation(ctx.shaderProgram, "aVertexColor");
-    ctx.aVertexTextureCoordId = gl.getAttribLocation(ctx.shaderProgram, "aVertexTextureCoord");
-    ctx.uSamplerId = gl.getUniformLocation(ctx.shaderProgram, "uSampler");
+    //ctx.aVertexTextureCoordId = gl.getAttribLocation(ctx.shaderProgram, "aVertexTextureCoord");
+    //ctx.uSamplerId = gl.getUniformLocation(ctx.shaderProgram, "uSampler");
     ctx.uModelViewMatrixId = gl.getUniformLocation(ctx.shaderProgram, "uModelViewMatrix");
-    ctx.uTextureMatrix = gl.getUniformLocation(ctx.shaderProgram, "uTextureMatrix");
+    ctx.uProjectionMatrix = gl.getUniformLocation(ctx.shaderProgram, "uProjectionMatrix");
+    //ctx.uObjectTransformMatrix = gl.getUniformLocation(ctx.shaderProgram, "uObjectTransformMatrix");
+    //ctx.uTextureMatrix = gl.getUniformLocation(ctx.shaderProgram, "uTextureMatrix");
 }
 
 /**
@@ -264,6 +262,7 @@ function loadTexture()
 
 function drawAnimated( timestamp )
 {
+    /*
     if(window.right)
     {
         window.turnRight = true;
@@ -289,7 +288,28 @@ function drawAnimated( timestamp )
         }
         transformationVariables.angle += transformationVariables.rotateStep;
     }
+    */
+    // set background color
+    gl.clearColor(0.3, 1, 0.3, 1);
+    // clear image with defined color
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
-    draw();
-    window.requestAnimationFrame(drawAnimated);
+    // camera view point and orientation
+    var modelViewMatrix = mat4.create();
+    mat4.lookAt(modelViewMatrix, [0.8, 0.8, 1.0], [0.0, 0.0, 0.0], [0.0, 1.0, 0.0]);
+    gl.uniformMatrix4fv(ctx.uModelViewMatrixId, false, modelViewMatrix);
+
+    // camera viewfield
+    var uProjectionMatrix = mat4.create();
+    // orthogrfisch
+    // mat4.ortho(uProjectionMatrix, -1.0, 1.0, -1.0, 1.0, 0.1, 5.0 );
+    // perspektivisch
+    mat4.frustum(uProjectionMatrix, -0.1, 0.1, -0.1, 0.1, 0.1, 5.0 );
+    //mat4.rotate(uProjectionMatrix, uProjectionMatrix, Math.PI/2, [0.0, 1.0, 0.0]);
+    gl.uniformMatrix4fv(ctx.uProjectionMatrix, false, uProjectionMatrix);
+
+    wiredCube = new WireFrameCube(gl, [1.0, 1.0, 0, 0.5]);
+    wiredCube.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId);
+    //draw();
+    //window.requestAnimationFrame(drawAnimated);
 }
