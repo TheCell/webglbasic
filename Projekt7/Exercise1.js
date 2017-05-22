@@ -308,7 +308,7 @@ function drawAnimated( timestamp )
     //mat4.rotate(uProjectionMatrix, uProjectionMatrix, Math.PI/2, [0.0, 1.0, 0.0]);
     gl.uniformMatrix4fv(ctx.uProjectionMatrix, false, uProjectionMatrix);
 
-    wiredCube = new WireFrameCube(gl, [1.0, 1.0, 0, 0.5]);
+    wiredCube = new WireFrameCube(gl, [1.0, 0.0, 0, 0.5]);
     wiredCube.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId);
     //draw();
     //window.requestAnimationFrame(drawAnimated);
