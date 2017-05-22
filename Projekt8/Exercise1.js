@@ -77,7 +77,15 @@ var ctx =
         aVertexPositionId: -1,
         aVertexColorId: -1,
         uProjectionMatrix: -1,
-        solidcube: -1
+        solidcube: -1,
+        uEnableTexture: -1,
+        uEnableLighting: -1,
+        aVertexNormal: -1,
+        aVertexTextureCoord: -1,
+        uNormalMatrix: -1,
+        uTextureMatrix: -1,
+        uSampler: -1
+
     };
 
 var lennaTxt =
@@ -127,9 +135,18 @@ function setUpAttributesAndUniforms(){
     "use strict";
     ctx.aVertexPositionId = gl.getAttribLocation(ctx.shaderProgram, "aVertexPosition");
     ctx.aVertexColorId = gl.getAttribLocation(ctx.shaderProgram, "aVertexColor");
+    ctx.aVertexNormal = gl.getAttribLocation(ctx.shaderProgram, "aVertexNormal");
+    ctx.aVertexTextureCoord = gl.getAttribLocation(ctx.shaderProgram, "aVertexTextureCoord");
 
     ctx.uModelViewMatrixId = gl.getUniformLocation(ctx.shaderProgram, "uModelViewMatrix");
     ctx.uProjectionMatrix = gl.getUniformLocation(ctx.shaderProgram, "uProjectionMatrix");
+    ctx.uNormalMatrix = gl.getUniformLocation(ctx.shaderProgram, "uNormalMatrix");
+    ctx.uTextureMatrix= gl.getUniformLocation(ctx.shaderProgram, "uTextureMatrix");
+    ctx.uEnableTexture = gl.getUniformLocation(ctx.shaderProgram, "uEnableTexture");
+    ctx.uEnableLighting = gl.getUniformLocation(ctx.shaderProgram, "uEnableLighting");
+
+    gl.uniform1i(ctx.uEnableTexture, 0);
+    gl.uniform1i(ctx.uEnableLighting, 1);
 }
 
 /**
@@ -306,13 +323,11 @@ function drawAnimated( timestamp )
     //mat4.rotate(uProjectionMatrix, uProjectionMatrix, Math.PI/2, [0.0, 1.0, 0.0]);
     gl.uniformMatrix4fv(ctx.uProjectionMatrix, false, uProjectionMatrix);
 
-    /*
+    ctx.solidCube = new SolidCube(gl, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.5, 0.5, 0.5]);
+    ctx.solidCube.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId, ctx.aVertexNormal);
+
     wiredCube = new WireFrameCube(gl, [1.0, 0.0, 0, 0.5]);
     wiredCube.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId);
-    */
-
-    solidCube = new SolidCube(gl, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [0.5, 0.5, 0.5]);
-    solidCube.draw(gl, ctx.aVertexPositionId, ctx.aVertexColorId, -1);
     //draw();
     //window.requestAnimationFrame(drawAnimated);
 }
